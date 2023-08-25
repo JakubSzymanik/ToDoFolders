@@ -1,0 +1,18 @@
+﻿@model PlacesTodo.Models.Folder
+
+<div class="text-center">
+    <h1 class="display-4">Create Folder</h1>
+</div>
+
+<div>
+    <p>Parent: @ViewBag.ParentName</p>
+    <form asp-action="Create" style="block">
+        Name:
+        <input type="text" asp-for="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+        <br />
+        <input type="hidden" asp-for="ParentId" value="@Model.ParentId" />
+        <input type="submit" value="Create" />
+    </form>
+    <a href="@Url.Action("Index", "Folders")">Cancel</a>
+</div>

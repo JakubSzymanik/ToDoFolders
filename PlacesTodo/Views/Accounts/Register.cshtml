@@ -1,0 +1,10 @@
+﻿@model PlacesTodo.Models.RegisterViewModel
+
+<h1>Register</h1>
+<form asp-action="Register" asp-controller="Accounts">
+    <p>Username: <input type="text" name="Name"/></p>
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <p>Password: <input type="password" name="Password"/></p>
+    <span asp-validation-for="Password" class="text-danger"></span>
+    <input type="submit" value="Register"/>
+</form>

@@ -1,0 +1,12 @@
+﻿@model PlacesTodo.Models.Folder
+
+<form asp-action="Edit" style="block">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    Name:
+    <input type="text" asp-for="Name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <br />
+    <input type="hidden" asp-for="ParentId" value="@Model.ParentId" />
+    <input type="submit" value="Submit" />
+</form>
+<a href="@Url.Action("Index", "Folders")">Cancel</a>

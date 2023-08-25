@@ -1,0 +1,48 @@
+﻿@model PlacesTodo.Models.Folder
+
+<div class="text-center">
+    <h1 class="display-4">Folders</h1>
+</div>
+
+@{
+    const int folderIndent = 20;
+    const int taskIndent = 10;
+
+    void ShowFolder(Folder folder, int depth)
+    {
+        <div style="margin-left:@Html.Raw(depth * 20)px; color:lightgrey">
+            @folder.Name
+            <a href="@Url.Action("Edit","Folders", new {id = folder.Id})">Edit</a>
+            <a href="@Url.Action("Delete","Folders", new {id = folder.Id})">Delete</a>
+            <a href="@Url.Action("Create","Folders", new {parentId = folder.Id})">New Folder</a>
+            <a href="@Url.Action("Create","Tasks", new {parentId = folder.Id})">New Task</a>
+
+            @if (folder.Tasks != null && folder.Tasks.Count > 0)
+            {
+                foreach(Item task in folder.Tasks)
+                {
+                <div style="margin-left:10px; color:white">
+                    - @task.Name
+                        <p style="display:inline; color:green">@task.DueDate.Date.ToString("dd/mm/yyyy")</p>
+                    <a href="@Url.Action("Edit","Tasks", new {id = task.Id})">Edit</a>
+                    <a href="@Url.Action("Delete","Tasks", new {id = task.Id})">Delete</a>
+                    <p style="font-size:15px; margin-left:20px">@task.Description</p>
+                </div>
+                }
+            }
+            
+        </div>
+
+        
+
+        if (folder.Children == null || folder.Children.Count == 0)
+            return;
+
+        @foreach(Folder child in folder.Children)
+        {
+            ShowFolder(child, depth + 1);
+        }
+    }
+
+    ShowFolder(Model, 0);
+}
