@@ -20,6 +20,31 @@ namespace PlacesTodo.Controllers
         }
 
         [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel registerModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Folder userRoot = new Folder() { Name = registerModel.Name + "_root" };
+                _context.Folders.Add(userRoot);
+                await _context.SaveChangesAsync();
+                User user = new User() { UserName = registerModel.Name, FolderId = userRoot.Id};
+                var result = await _userManager.CreateAsync(user, registerModel.Password!);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Folders");
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Login(string returnUrl = "")
         {
             return View();
@@ -40,28 +65,12 @@ namespace PlacesTodo.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout(string returnUrl = "")
         {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel registerModel)
-        {
-            if (ModelState.IsValid)
-            {
-                Folder userRoot = new Folder() { Name = registerModel.Name + "_root" };
-                _context.Folders.Add(userRoot);
-                await _context.SaveChangesAsync();
-                User user = new User() { UserName = registerModel.Name, FolderId = userRoot.Id};
-                var result = await _userManager.CreateAsync(user, registerModel.Password!);
-                if (result.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            return View();
+            await _signInManager.SignOutAsync();
+            //return RedirectToRoute(returnUrl);
+            return RedirectToAction("Index", "Folders");
         }
     }
 }

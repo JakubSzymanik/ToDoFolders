@@ -34,7 +34,7 @@
                                     <a class="nav-link" style="color:white" asp-area="" asp-controller="Accounts" asp-action="Details">@Context.User.Identity.Name</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" style="color:white" asp-area="" asp-controller="Accounts" asp-action="Logout">Logout</a>
+                                    <a class="nav-link" style="color:white" asp-area="" asp-controller="Accounts" asp-method="POST" asp-action="Logout">Logout</a>
                                 </li>
                             </ul>
                         }
