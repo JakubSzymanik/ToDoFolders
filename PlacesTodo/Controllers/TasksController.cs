@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PlacesTodo.Context;
@@ -6,6 +7,7 @@ using PlacesTodo.Models;
 
 namespace PlacesTodo.Controllers
 {
+    [Authorize]
     public class TasksController : GenericController<Item>
     {
         public TasksController(AppDBContext context, UserManager<User> userManager) : base(context, userManager) {}

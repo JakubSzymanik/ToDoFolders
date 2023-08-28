@@ -31,10 +31,10 @@
                         {
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link" style="color:white" asp-area="" asp-controller="Accounts" asp-action="Details">@Context.User.Identity.Name</a>
+                                    <a class="nav-link" style="color:white" asp-controller="Accounts" asp-action="Details">@Context.User.Identity.Name</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" style="color:white" asp-area="" asp-controller="Accounts" asp-method="POST" asp-action="Logout">Logout</a>
+                                    <a class="nav-link" style="color:white" asp-controller="Accounts" asp-method="POST" asp-action="Logout" asp-route-returnUrl="@Context.Request.Path">Logout</a>
                                 </li>
                             </ul>
                         }
@@ -42,10 +42,10 @@
                         {
                              <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link" style="color:white" asp-area="" asp-controller="Accounts" asp-action="Login">Login</a>
+                                    <a class="nav-link" style="color:white" asp-controller="Accounts" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Login</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" style="color:white" asp-area="" asp-controller="Accounts" asp-action="Register">Register</a>
+                                    <a class="nav-link" style="color:white" asp-controller="Accounts" asp-action="Register" asp-route-returnUrl="@Context.Request.Path">Register</a>
                                 </li>
                             </ul>
                         }

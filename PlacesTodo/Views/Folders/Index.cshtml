@@ -11,11 +11,22 @@
     void ShowFolder(Folder folder, int depth)
     {
         <div style="margin-left:@Html.Raw(depth * 20)px; color:lightgrey">
-            @folder.Name
-            <a href="@Url.Action("Edit","Folders", new {id = folder.Id})">Edit</a>
-            <a href="@Url.Action("Delete","Folders", new {id = folder.Id})">Delete</a>
-            <a href="@Url.Action("Create","Folders", new {parentId = folder.Id})">New Folder</a>
-            <a href="@Url.Action("Create","Tasks", new {parentId = folder.Id})">New Task</a>
+            @if(depth == 0)
+            {
+                @Context.User.Identity.Name; 
+                @Html.Raw("'s Tasks");
+                <a href="@Url.Action("Create","Folders", new {parentId = folder.Id})">New Folder</a>
+                <a href="@Url.Action("Create","Tasks", new {parentId = folder.Id})">New Task</a>
+            }
+            else
+            {
+                @folder.Name;
+                <a href="@Url.Action("Edit","Folders", new {id = folder.Id})">Edit</a>
+                <a href="@Url.Action("Delete","Folders", new {id = folder.Id})">Delete</a>
+                <a href="@Url.Action("Create","Folders", new {parentId = folder.Id})">New Folder</a>
+                <a href="@Url.Action("Create","Tasks", new {parentId = folder.Id})">New Task</a>
+            }
+
 
             @if (folder.Tasks != null && folder.Tasks.Count > 0)
             {

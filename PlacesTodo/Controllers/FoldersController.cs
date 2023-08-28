@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,16 +8,18 @@ using PlacesTodo.Models;
 
 namespace PlacesTodo.Controllers
 {
+    [Authorize]
     public class FoldersController : GenericController<Folder>
     {
         public FoldersController(AppDBContext context, UserManager<User> userManager) : base(context, userManager) { }
 
         // GET: FoldersController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var folders = _context.Folders.Include(f => f.Children).Include(f => f.Tasks).ToList();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            return View(folders.Where(v => v.ParentId == null).FirstOrDefault());
+            return View(folders.Where(v => v.ParentId == null && v.Id == user.FolderId).FirstOrDefault());
         }
 
         // GET: FoldersController/Create

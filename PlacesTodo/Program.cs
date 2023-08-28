@@ -10,10 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PlacesTodoDBContext")));
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
-builder.Services.AddAuthentication().AddCookie(options =>
+//builder.Services.AddAuthentication().AddCookie(options =>
+//{
+//    options.LoginPath = "/Accounts/Login";
+//    options.AccessDeniedPath = "/Accounts/Login";
+//});
+builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Accounts";
-    options.AccessDeniedPath = "/Accounts";
+    options.LoginPath = "/Accounts/Login";
+    options.AccessDeniedPath = "/Accounts/Login";
 });
 
 builder.Services.AddControllersWithViews();
@@ -25,7 +30,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    SeedData.Initialize(services);
+    //SeedData.Initialize(services);
 }
 
 // Configure the HTTP request pipeline.

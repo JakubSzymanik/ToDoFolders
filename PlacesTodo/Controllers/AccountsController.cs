@@ -38,7 +38,7 @@ namespace PlacesTodo.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Folders");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             return View();
@@ -47,6 +47,7 @@ namespace PlacesTodo.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl = "")
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
         [HttpPost]
@@ -58,7 +59,7 @@ namespace PlacesTodo.Controllers
                 var result = await _signInManager.PasswordSignInAsync(loginModel.Name!, loginModel.Password!, loginModel.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    return RedirectToRoute(returnUrl);
+                    return Redirect(returnUrl);
                 }
             }
             return View();
@@ -69,8 +70,8 @@ namespace PlacesTodo.Controllers
         public async Task<IActionResult> Logout(string returnUrl = "")
         {
             await _signInManager.SignOutAsync();
-            //return RedirectToRoute(returnUrl);
-            return RedirectToAction("Index", "Folders");
+            return Redirect(returnUrl);
+            //return RedirectToAction("Index", "Home");
         }
     }
 }

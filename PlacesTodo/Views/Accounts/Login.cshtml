@@ -1,7 +1,7 @@
 ﻿@model PlacesTodo.Models.LoginViewModel
 
 <h1>Login</h1>
-<form asp-action="Login" asp-controller="Accounts" asp-route-returnulr="@ViewData["ReturnUrl"]">
+<form asp-action="Login" asp-controller="Accounts" asp-route-returnUrl="@ViewData["ReturnUrl"]">
     <p>Username: <input type="text" name="Name"/></p>
     <span asp-validation-for="Name" class="text-danger"></span>
     <p>Password: <input type="password" name="Password"/></p>
