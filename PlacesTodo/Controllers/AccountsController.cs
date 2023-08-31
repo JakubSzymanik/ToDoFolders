@@ -33,10 +33,12 @@ namespace PlacesTodo.Controllers
                 Folder userRoot = new Folder() { Name = registerModel.Name + "_root" };
                 _context.Folders.Add(userRoot);
                 await _context.SaveChangesAsync();
-                User user = new User() { UserName = registerModel.Name, FolderId = userRoot.Id};
+                User user = new User() { UserName = registerModel.Name, FolderId = userRoot.Id };
                 var result = await _userManager.CreateAsync(user, registerModel.Password!);
                 if (result.Succeeded)
                 {
+                    Claim userClaim = new Claim("User", "Standard");
+                    await _userManager.AddClaimAsync(user, userClaim);
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -71,7 +73,6 @@ namespace PlacesTodo.Controllers
         {
             await _signInManager.SignOutAsync();
             return Redirect(returnUrl);
-            //return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -10,11 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("PlacesTodoDBContext")));
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
-//builder.Services.AddAuthentication().AddCookie(options =>
-//{
-//    options.LoginPath = "/Accounts/Login";
-//    options.AccessDeniedPath = "/Accounts/Login";
-//});
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Accounts/Login";
@@ -22,6 +17,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserOnly", policy => policy.RequireClaim("User", "Standard"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+});
 
 var app = builder.Build();
 
